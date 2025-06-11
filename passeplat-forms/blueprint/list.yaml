@@ -1,0 +1,239 @@
+renderView:
+  - type: div
+    attributes:
+      class: pb-2
+    content:
+      - type: table
+        attributes:
+          class: table table-striped pt-3
+        content:
+          - type: thead
+            content:
+              - type: tr
+                content:
+                  - type: th
+                    content:
+                      - type: span
+                        actions:
+                          - what: tooltip
+                            content: ""
+                        content: " "
+                  - type: th
+                    content:
+                      - type: span
+                        actions:
+                          - what: tooltip
+                            content: "The number of logs."
+                        content: "# OF LOGS"
+                  - type: th
+                    content:
+                      - type: span
+                        actions:
+                          - what: tooltip
+                            content: SECURITY
+                        content: SECURITY
+                  - type: th
+                    content:
+                      - type: span
+                        actions:
+                          - what: tooltip
+                            content: ALERT
+                        content: ALERT
+                  - type: th
+                    content:
+                      - type: span
+                        actions:
+                          - what: tooltip
+                            content: LOGS
+                        content: LOGS
+                  - type: th
+                    content:
+                      - type: span
+                        actions:
+                          - what: tooltip
+                            content: LAST CALL
+                        content: LAST CALL
+                  - type: th
+                    content:
+                      - type: span
+                        actions:
+                          - what: tooltip
+                            content: The number of error validation
+                        content: "# ERRORS"
+                  - type: th
+                    content:
+                      - type: span
+                        actions:
+                          - what: tooltip
+                            content: ""
+                        content: ""
+                  - type: th
+                    content:
+                      - type: span
+                        actions:
+                          - what: tooltip
+                            content: ""
+                        content: ""
+          - type: tbody
+            content:
+              type: Switch
+              content: ~~.results
+              paginated: true
+              paginationProps:
+                maxPageButtonsCount: 3
+                pageMaxItemCount: 10
+              options:
+                results_item:
+                  load: results_item
+                page_controls:
+                  type: PageControls
+              after:
+                type: tr
+                attributes:
+                  class: d-flex justify-content-center
+                content:
+                  type: td
+                  content:
+                    type: PageControls
+
+listForms:
+  results_item:
+    - type: tr
+      content:
+        - type: td
+          content:
+            - type: span
+              content:
+                - type: a
+                  attributes:
+                    href: ~.dashboard
+                  content: ~.title
+                - type: br
+                - ~.domain
+                - type: br
+                - ~.url
+        - type: td
+          content:
+            - type: span
+              actions:
+                - what: hide
+                  when: ~.nbOfLogs
+                  is: 0
+              content:
+                - type: a
+                  attributes:
+                    href: ~.logsPage
+                  content: ~.nbOfLogs
+            - type: span
+              actions:
+                - what: hide
+                  when: ~.nbOfLogs
+                  isNot: 0
+              content: ~.nbOfLogs
+        - type: td
+          content:
+            - type: span
+              actions:
+                - what: hide
+                  when: ~.security
+                  is: false
+              attributes:
+                style:
+                  color: "green"
+                  font-family: "Ubuntu, Arial, sans-serif"
+              content: '✔'
+            - type: span
+              actions:
+                - what: hide
+                  when: ~.security
+                  is: true
+              attributes:
+                style:
+                  color: "red"
+                  font-family: "Ubuntu, Arial, sans-serif"
+              content: '✖'
+        - type: td
+          content:
+            - type: span
+              actions:
+                - what: hide
+                  when: ~.alert
+                  is: false
+              attributes:
+                style:
+                  color: "green"
+                  font-family: "Ubuntu, Arial, sans-serif"
+              content: '✔'
+            - type: span
+              actions:
+                - what: hide
+                  when: ~.alert
+                  is: true
+              attributes:
+                style:
+                  color: "red"
+                  font-family: "Ubuntu, Arial, sans-serif"
+              content: '✖'
+        - type: td
+          content:
+            - type: span
+              actions:
+                - what: hide
+                  when: ~.logs
+                  is: false
+              attributes:
+                style:
+                  color: "green"
+                  font-family: "Ubuntu, Arial, sans-serif"
+              content: '✔'
+            - type: span
+              actions:
+                - what: hide
+                  when: ~.logs
+                  is: true
+              attributes:
+                style:
+                  color: "red"
+                  font-family: "Ubuntu, Arial, sans-serif"
+              content: '✖'
+        - type: td
+          content: ~.lastCall
+        - type: td
+          content:
+            - type: span
+              actions:
+                - what: hide
+                  when: ~.nbOfErrors
+                  is: 0
+              content:
+                - type: a
+                  attributes:
+                    href: ~.errorsPage
+                  content: ~.nbOfErrors
+            - type: span
+              actions:
+                - what: hide
+                  when: ~.nbOfErrors
+                  isNot: 0
+              content: ~.nbOfErrors
+        - type: td
+          content:
+            - type: a
+              attributes:
+                href: ~.edit
+              content: 🖉
+        - type: td
+          content:
+            - type: Button
+              attributes:
+                class: "btn btn-sm"
+              content: 📋
+              actions:
+                - what: tooltip
+                  content:
+                    - ~.copy
+                    - ' '
+                    - 📋
+                - what: setClipboardData
+                  on: click
+                  value: ~.copy

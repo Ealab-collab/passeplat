@@ -1,0 +1,23 @@
+{
+    "name": "emerya/passeplat-tasks",
+    "description": "Tasks for passeplat",
+    "type": "library",
+    "require": {
+        "emerya/passeplat-core": "@dev",
+        "elasticsearch/elasticsearch": "~7.0",
+        "ext-json": "*",
+        "php": ">=7.2"
+    },
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Wilfrid Roze",
+            "email": "wilfrid.roze@emerya.fr"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PassePlat\\Tasks\\": "src/"
+        }
+    }
+}

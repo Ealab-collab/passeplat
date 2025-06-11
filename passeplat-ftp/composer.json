@@ -1,0 +1,29 @@
+{
+    "name": "emerya/passeplat-ftp",
+    "description": "FTP additions for passeplat-core.",
+    "type": "library",
+    "require": {
+        "emerya/passeplat-core": "@dev",
+        "ext-fileinfo": "*",
+        "ext-ftp": "*",
+        "php": ">=7.2"
+    },
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Quang-Minh",
+            "email": "quang-minh@emerya.fr"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PassePlat\\Ftp\\": "src/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../passeplat-core"
+        }
+    ]
+}

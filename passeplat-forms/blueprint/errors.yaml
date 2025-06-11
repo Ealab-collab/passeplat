@@ -1,0 +1,493 @@
+renderView:
+  - type: div
+    attributes:
+      class: container-fluid
+    content:
+      - type: div
+        attributes:
+          class: row
+        content:
+          # Left column
+          - type: div
+            attributes:
+              class: col-md-3
+            content:
+              - type: div
+                content:
+                  # Select Path
+                  - type: div
+                    attributes:
+                      class: mb-3
+                    content:
+                      - type: div
+                        attributes:
+                          class: fw-bold
+                        content: Path
+                      - type: SelectField
+                        dataLocation: ~~.filters.path
+                        dynamicOptions: ~~.paths
+                  # Radio for sorting method
+                  - type: div
+                    attributes:
+                      class: mb-3
+                    content:
+                      - type: div
+                        attributes:
+                          class: fw-bold
+                        content: Primary Sorting Method
+                      - type: CheckBoxField
+                        actions:
+                          - what: setData
+                            'on': click
+                            path: ~~.sorts.secondary
+                            value: null
+                        controlType: radio
+                        dataLocation: ~~.sorts.primary
+                        defaultFieldValue: occurrenceCount
+                        options:
+                          - label:
+                              - type: span
+                                attributes:
+                                  class: me-2
+                                content:
+                                  - "Occurrence Count"
+                            value: occurrenceCount
+                          - label:
+                              - type: span
+                                attributes:
+                                  class: me-2
+                                content:
+                                  - "Last Date"
+                            value: lastDate
+                          - label:
+                              - type: span
+                                attributes:
+                                  class: me-2
+                                content:
+                                  - "Severity Level"
+                            value: severityLevel
+                  - type: div
+                    actions:
+                      - what: hide
+                        when: ~~.sorts.primary
+                        isNot: occurrenceCount
+                    attributes:
+                      class: mb-3
+                    content:
+                      - type: div
+                        attributes:
+                          class: fw-bold
+                        content: Secondary Sorting Method
+                      - type: CheckBoxField
+                        controlType: radio
+                        dataLocation: ~~.sorts.secondary
+                        defaultFieldValue: null
+                        options:
+                          - label:
+                              - type: span
+                                attributes:
+                                  class: me-2
+                                content:
+                                  - "Last Date"
+                            value: lastDate
+                          - label:
+                              - type: span
+                                attributes:
+                                  class: me-2
+                                content:
+                                  - "Severity Level"
+                            value: severityLevel
+                  - type: div
+                    actions:
+                      - what: hide
+                        when: ~~.sorts.primary
+                        isNot: lastDate
+                    attributes:
+                      class: mb-3
+                    content:
+                      - type: div
+                        attributes:
+                          class: fw-bold
+                        content: Secondary Sorting Method
+                      - type: CheckBoxField
+                        controlType: radio
+                        dataLocation: ~~.sorts.secondary
+                        defaultFieldValue: null
+                        options:
+                          - label:
+                              - type: span
+                                attributes:
+                                  class: me-2
+                                content:
+                                  - "Occurrence Count"
+                            value: occurrenceCount
+                          - label:
+                              - type: span
+                                attributes:
+                                  class: me-2
+                                content:
+                                  - "Severity Level"
+                            value: severityLevel
+                  - type: div
+                    actions:
+                      - what: hide
+                        when: ~~.sorts.primary
+                        isNot: severityLevel
+                    attributes:
+                      class: mb-3
+                    content:
+                      - type: div
+                        attributes:
+                          class: fw-bold
+                        content: Secondary Sorting Method
+                      - type: CheckBoxField
+                        controlType: radio
+                        dataLocation: ~~.sorts.secondary
+                        defaultFieldValue: null
+                        options:
+                          - label:
+                              - type: span
+                                attributes:
+                                  class: me-2
+                                content:
+                                  - "Occurrence Count"
+                            value: occurrenceCount
+                          - label:
+                              - type: span
+                                attributes:
+                                  class: me-2
+                                content:
+                                  - "Last Date"
+                            value: lastDate
+                  # Dates
+                  - type: div
+                    attributes:
+                      class: fw-bold
+                    content: Dates (UTC)
+                  # Start Date
+                  - type: div
+                    attributes:
+                      class: mb-1
+                    content:
+                      - type: label
+                        content: "Start Date:"
+                  - type: DateField
+                    dataLocation: ~~.filters.startDate
+                  # End Date
+                  - type: div
+                    attributes:
+                      class: mb-1
+                    content:
+                      - type: label
+                        content: "End Date:"
+                  - type: DateField
+                    dataLocation:  ~~.filters.endDate
+                  # Request Or Response
+                  - type: div
+                    attributes:
+                      class: fw-bold mt-3
+                    content: Type
+                  - type: CheckBoxField
+                    dataLocation: ~~.filters.type
+                    defaultFieldValue: 'All'
+                    controlType: radio
+                    options:
+                      - label:
+                          - type: span
+                            attributes:
+                              class: me-2
+                            content:
+                              - "All"
+                        value: All
+                      - label:
+                          - type: span
+                            attributes:
+                              class: me-2
+                            content:
+                              - "Request"
+                        value: Request
+                      - label:
+                          - type: span
+                            attributes:
+                              class: me-2
+                            content:
+                              - "Response"
+                        value: Response
+                  # Category
+                  - type: div
+                    attributes:
+                      class: fw-bold mt-3
+                    content: Category
+                  - type: CheckBoxField
+                    dataLocation: ~~.filters.category
+                    defaultFieldValue: All
+                    controlType: radio
+                    options:
+                      - label:
+                          - type: span
+                            attributes:
+                              class: me-2
+                            content:
+                              - "All"
+                        value: All
+                      - label:
+                          - type: span
+                            attributes:
+                              class: me-2
+                            content:
+                              - "Parsing"
+                        value: Parsing
+                      - label:
+                          - type: span
+                            attributes:
+                              class: me-2
+                            content:
+                              - "Schema"
+                        value: Schema
+                      - label:
+                          - type: span
+                            attributes:
+                              class: me-2
+                            content:
+                              - "Value"
+                        value: Value
+                  # Item
+                  - type: div
+                    attributes:
+                      class: fw-bold mt-3
+                    content: Item
+                  - type: CheckBoxField
+                    dataLocation: ~~.filters.item
+                    defaultFieldValue: All
+                    controlType: radio
+                    options:
+                      - label:
+                          - type: span
+                            attributes:
+                              class: me-2
+                            content:
+                              - "All"
+                        value: All
+                      - label:
+                          - type: span
+                            attributes:
+                              class: me-2
+                            content:
+                              - "Body"
+                        value: Body
+                      - label:
+                          - type: span
+                            attributes:
+                              class: me-2
+                            content:
+                              - "Cookies"
+                        value: Cookies
+                      - label:
+                          - type: span
+                            attributes:
+                              class: me-2
+                            content:
+                              - "Headers"
+                        value: Headers
+                      - label:
+                          - type: span
+                            attributes:
+                              class: me-2
+                            content:
+                              - "Path"
+                        value: Path
+                      - label:
+                          - type: span
+                            attributes:
+                              class: me-2
+                            content:
+                              - "Query"
+                        value: Query
+                      - label:
+                          - type: span
+                            attributes:
+                              class: me-2
+                            content:
+                              - "Security"
+                        value: Security
+          # Right column
+          - type: div
+            attributes:
+              class: col-md-9
+            content:
+              - type: div
+                content:
+                  # Search
+                  - type: div
+                    attributes:
+                      class: row mb-3 justify-content-center
+                    content:
+                      # Keywords for search
+                      - type: div
+                        attributes:
+                          class: col-md-6
+                        content:
+                          - type: TextField
+                            placeholder: Keywords for search
+                            dataLocation: ~~.filters.text
+                        # Search button
+                      - type: div
+                        attributes:
+                          class: col-md-3
+                        content:
+                          - type: button
+                            actions:
+                              - what: submitData
+                                url: ~~._url
+                                on: click
+                            attributes:
+                              class: btn btn-primary
+                            content: "Search"
+
+
+                  # Tableau des résultats
+                  - type: table
+                    attributes:
+                      class: table table-striped
+                    content:
+                      - type: thead
+                        content:
+                          - type: tr
+                            content:
+                              - type: th
+                                content:
+                                  - type: span
+                                    actions:
+                                      - what: tooltip
+                                        content: "The unique identifier for the error"
+                                    content: "Code"
+                              - type: th
+                                content:
+                                  - type: span
+                                    actions:
+                                      - what: tooltip
+                                        content: "The OpenAPI path where the error occurred"
+                                    content: "Path"
+                              - type: th
+                                content:
+                                  - type: span
+                                    actions:
+                                      - what: tooltip
+                                        content: "Indicates whether the error originated from an HTTP request or response"
+                                    content: "Type"
+                              - type: th
+                                content:
+                                  - type: span
+                                    actions:
+                                      - what: tooltip
+                                        content: "Specifies if the error is caused by a value problem or a parsing/schema violation"
+                                    content: "Category"
+                              - type: th
+                                content:
+                                  - type: span
+                                    actions:
+                                      - what: tooltip
+                                        content: "The specific element causing the error, like the body, header, or cookies"
+                                    content: "Item"
+                              - type: th
+                                content:
+                                  - type: span
+                                    actions:
+                                      - what: tooltip
+                                        content: "A detailed message explaining the nature of the error"
+                                    content: "Message"
+                              - type: th
+                                content:
+                                  - type: span
+                                    actions:
+                                      - what: tooltip
+                                        content: "Indicates the severity level of the error"
+                                    content: "Severity"
+                              - type: th
+                                content:
+                                  - type: span
+                                    actions:
+                                      - what: tooltip
+                                        content: "The total number of times this error has occurred"
+                                    content: "Occurrence"
+                              - type: th
+                                content:
+                                  - type: span
+                                    actions:
+                                      - what: tooltip
+                                        content: "The date and time of the most recent occurrence of this error"
+                                    content: "Last Date"
+                      - type: tbody
+                        content:
+                          type: Switch
+                          content: ~~.results
+                          paginated: true
+                          paginationProps:
+                            maxPageButtonsCount: 3
+                            pageMaxItemCount: 10
+                          options:
+                            results_item:
+                              load: results_item
+                            page_controls:
+                              type: PageControls
+
+                          after:
+                            type: tr
+                            attributes:
+                              class: d-flex justify-content-center
+                            content:
+                              type: td
+                              content:
+                                type: PageControls
+
+
+listForms:
+  results_item:
+    - type: tr
+      content:
+        - type: td
+          content: ~.code
+        - type: td
+          content: ~.path
+        - type: td
+          content: ~.type
+        - type: td
+          content: ~.category
+        - type: td
+          content: ~.item
+        - type: td
+          content: ~.message
+        - type: td
+          content: ~.severity
+        - type: td
+          content: ~.occurrence
+        - type: td
+          content: ~.lastDate
+data :
+  filters:
+    userId: ''
+    webServiceId: ''
+    startDate: ""
+    endDate: ""
+    text: ''
+    type: 'All'
+    category: 'All'
+    path: 'All'
+  sorts:
+    primary: "occurrenceCount"
+    secondary: "lastDate"
+  results:
+    - results_item:
+        code: ''
+        path: ''
+        type: ''
+        category: ''
+        item: ''
+        message: ''
+        severity: ''
+        occurrence: ''
+        lastDate: ''
+  _url: '/forms/errors.php'
+  paths:
+    - label: 'All'
+      value: 'All'

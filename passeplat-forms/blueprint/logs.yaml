@@ -1,0 +1,437 @@
+renderView:
+  - type: div
+    attributes:
+      class: container-fluid
+    content:
+      # A "logs" label.
+      - type: div
+        attributes:
+          class: row mb-2
+        content:
+          - type : span
+            content: "Logs"
+
+      # A div for labels.
+      - type: div
+        attributes:
+          class: row mb-1
+        content:
+          # Empty label for the search field.
+          - type: div
+            attributes:
+              class: col-3
+            content: ''
+          # Label for the start date.
+          - type: div
+            attributes:
+              class: col-3
+            content:
+              - type: label
+                content: "Start Date:"
+          # Label for the end date.
+          - type: div
+            attributes:
+              class: col-3
+            content:
+              - type: label
+                content: "End Date:"
+          # Empty label for Select Field.
+          - type: div
+            attributes:
+              class: col-2
+            content: ''
+          # Empty label for Search button.
+          - type: div
+            attributes:
+              class: col-1
+            content: ''
+
+      # The different elements for filters and search.
+      - type: div
+        attributes:
+          class: row mb-3
+        content:
+          # The Search Field.
+          - type: div
+            attributes:
+              class: col-3
+            content:
+              - type: TextField
+                placeholder: "Keyword search"
+                dataLocation: ~~.filters.text
+          # The Start Date.
+          - type: div
+            attributes:
+              class: col-3
+            content:
+              - type: DateField
+                dataLocation: ~~.filters.startDate
+          # The End Date.
+          - type: div
+            attributes:
+              class: col-3
+            content:
+              - type: DateField
+                dataLocation: ~~.filters.endDate
+          # The Select Field.
+          - type: div
+            attributes:
+              class: col-2
+            content:
+              - type: SelectField
+                attributes: col-3
+                dataLocation: ~~.filters.status
+                dynamicOptions: ~~.filterOptions.status
+          # The Search button.
+          - type: div
+            attributes:
+              class: col-1
+            content:
+              - type: button
+                actions:
+                  - what: submitData
+                    url: ~~.url.logs
+                    on: click
+                attributes:
+                  class: btn btn-primary
+                content: '🔎'
+
+
+      # The number of results.
+      - type: div
+        attributes:
+          class: row mt-3
+        content:
+          - type: span
+            content: ~~.results.nb
+
+
+      # The result content.
+      - type: div
+        attributes:
+          class: row
+        content:
+          - type: table
+            attributes:
+              class: table table-striped
+            content:
+              # The table headers.
+              - type: thead
+                content:
+                  - type: tr
+                    content:
+                      - type: th
+                        attributes:
+                          style:
+                            display: none
+                        content:
+                          - type: span
+                            actions:
+                              - what: tooltip
+                                content: "Id"
+                            content: "Id"
+                      - type: th
+                        content:
+                          - type: span
+                            actions:
+                              - what: tooltip
+                                content: "Created"
+                            content: "Created"
+                      - type: th
+                        content:
+                          - type: span
+                            actions:
+                              - what: tooltip
+                                content: "HTTP Method"
+                            content: "HTTP Method"
+                      - type: th
+                        content:
+                          - type: span
+                            actions:
+                              - what: tooltip
+                                content: "Destination URL"
+                            content: "Destination URL"
+                      - type: th
+                        content:
+                          - type: span
+                            actions:
+                              - what: tooltip
+                                content: "Execution duration"
+                            content: "Execution duration"
+                      - type: th
+                        content:
+                          - type: span
+                            actions:
+                              - what: tooltip
+                                content: "App execution duration"
+                            content: "App execution duration"
+                      - type: th
+                        content:
+                          - type: span
+                            actions:
+                              - what: tooltip
+                                content: "HTTP Status"
+                            content: "HTTP Status"
+                      - type: th
+                        content:
+                          - type: span
+                            actions:
+                              - what: tooltip
+                                content: "More Details"
+                            content: "More Details"
+              # The table body.
+              - type: tbody
+                content:
+                  type: Switch
+                  content: ~~.results.entries
+                  paginated: true
+                  paginationProps:
+                    maxPageButtonsCount: 3
+                    pageMaxItemCount: 10
+                  options:
+                    results_item:
+                      load: results_item
+                    page_controls:
+                      type: PageControls
+                  after:
+                    type: tr
+                    attributes:
+                      class: d-flex justify-content-center
+                    content:
+                      type: td
+                      content:
+                        type: PageControls
+
+
+listForms:
+  header_item_breakable:
+    - type: tr
+      content:
+        - type: td
+          content: ~.key
+        - type: td
+          attributes:
+            style:
+              word-break: break-all
+          content: ~.value
+
+
+  results_item:
+    - type: tr
+      content:
+        - type: td
+          attributes:
+            style:
+              display: none
+          content: ~.id
+        - type: td
+          content: ~.created
+        - type: td
+          content: ~.httpMethod
+        - type: td
+          content: ~.destinationURL
+        - type: td
+          content: ~.executionDuration
+        - type: td
+          content: ~.appExecutionDuration
+        - type: td
+          content: ~.httpStatus
+        - type: td
+          content:
+            - type: BsButton
+              attributes:
+                style:
+                  border: none
+              content: '👀'
+              actions:
+                # Delete the old details to avoid sending them to the backend.
+                - what: setData
+                  on: click
+                  path: ~~.details
+                  value: ''
+                - what: setData
+                  on: click
+                  path: ~~.details.id
+                  value: ~.id
+                - what: submitData
+                  url: ~~.url.details
+                  on: message
+                  whenMessageIs:
+                    actor: open_log_details
+                    value: ~.id
+                - what: postMessage
+                  on: click
+                  message:
+                    # The message body is not a syntax; it’s up to you.
+                    actor: open_log_details
+                    value: ~.id
+                - what: setData
+                  on: click
+                  path: ~._openModal
+                  value: true
+            - type: Modal
+              attributes:
+                class: modal-lg
+                style:
+                  zIndex: 1050 # Modal backdrop fix.
+              showBoolPath: ~._openModal
+              headerTitle: 'More details:'
+              closeButton: true
+              body:
+                - type: BsAccordion
+                  content:
+                    # Request.
+                    - type: AccordionItem
+                      header:
+                        - type: div
+                          content: 'Request:'
+                      body:
+                      - type: BsAccordion
+                        content:
+                          - type: AccordionItem
+                            header:
+                              - type: div
+                                content: "Initiator Request Headers"
+                            body:
+                              - type: table
+                                attributes:
+                                  class: table table-striped
+                                content:
+                                  - type: thead
+                                    content:
+                                      - type: tr
+                                        content:
+                                          - type: th
+                                            content:
+                                              - type: span
+                                                actions:
+                                                  - what: tooltip
+                                                    content: "Key"
+                                                content: "Key"
+                                          - type: th
+                                            content:
+                                              - type: span
+                                                actions:
+                                                  - what: tooltip
+                                                    content: "Value"
+                                                content: "Value"
+
+                                  - type: tbody
+                                    content:
+                                      type: Switch
+                                      content: ~~.details.initiator_request_headers
+                                      paginated: true
+                                      paginationProps:
+                                        maxPageButtonsCount: 3
+                                        pageMaxItemCount: 100
+                                      options:
+                                        header_item_breakable:
+                                          load: header_item_breakable
+                                        page_controls:
+                                          type: PageControls
+
+                          - type: AccordionItem
+                            header:
+                              - type: div
+                                content: "Initiator Request Body"
+                            body:
+                              - type: div
+                                content: ~~.details.initiator_request_body
+                    # Response.
+                    - type: AccordionItem
+                      header:
+                        - type: div
+                          content: 'Response:'
+                      body:
+                        - type: BsAccordion
+                          content:
+                            - type: AccordionItem
+                              header:
+                                - type: div
+                                  content: "Destination Response Headers"
+                              body:
+                                - type: table
+                                  attributes:
+                                    class: table table-striped
+                                  content:
+                                    - type: thead
+                                      content:
+                                        - type: tr
+                                          content:
+                                            - type: th
+                                              content:
+                                                - type: span
+                                                  actions:
+                                                    - what: tooltip
+                                                      content: "Key"
+                                                  content: "Key"
+                                            - type: th
+                                              content:
+                                                - type: span
+                                                  actions:
+                                                    - what: tooltip
+                                                      content: "Value"
+                                                  content: "Value"
+
+                                    - type: tbody
+                                      content:
+                                        type: Switch
+                                        content: ~~.details.destination_response_headers
+                                        paginated: true
+                                        paginationProps:
+                                          maxPageButtonsCount: 3
+                                          pageMaxItemCount: 100
+                                        options:
+                                          header_item_breakable:
+                                            load: header_item_breakable
+                                          page_controls:
+                                            type: PageControls
+
+                            - type: AccordionItem
+                              header:
+                                - type: div
+                                  content: "Destination Response Body"
+                              body:
+                                - type: div
+                                  content: ~~.details.destination_response_body
+
+
+
+data:
+  results:
+    nb: ''
+    entries: ''
+
+  url:
+    logs: '/forms/logs.php'
+    details: '/forms/logsDetails.php'
+
+  filterOptions:
+    status:
+      - label: 'Status Code'
+        value: ''
+      - label: 'App Error'
+        value: '4XX'
+      - label: 'Server Error'
+        value: '5XX'
+      - label: 'Redirect'
+        value: '3XX'
+      - label: 'Success'
+        value: '2XX'
+
+  details:
+    id: ''
+    initiator_request_headers: ''
+    initiator_request_body: ''
+    destination_response_headers: ''
+    destination_response_body: ''
+
+  filters:
+    passeplat_wsid: ''
+    passeplat_uid: ''
+    text: ''
+    startDate: ''
+    endDate: ''
+    status: ''
+
+

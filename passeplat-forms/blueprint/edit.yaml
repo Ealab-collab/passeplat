@@ -1,0 +1,558 @@
+renderView:
+  - type: h1
+    attributes:
+      class: pb-2
+    content: Edit Webservice
+  - type: div
+    attributes:
+      class: pb-2
+    content:
+      - type: div
+        attributes:
+          class: fw-bold
+        content: 'Name:'
+      - type: TextField
+        placeholder: Name of your API
+        dataLocation: ~~.name
+      - type: div
+        attributes:
+          class: fw-bold
+        content: 'Domain:'
+      - type: TextField
+        placeholder: https://www.example.com
+        dataLocation: ~~.domain
+      - type: div
+        attributes:
+          class: fw-bold
+        content: 'Webservice Identifier:'
+      - type: TextField
+        attributes:
+          class: pb-2
+        placeholder: http://example--com--999999999.wsolution.app
+        dataLocation: ~~.wsid
+      - type: Tabs
+        attributes:
+          defaultActiveKey: actOnRequest
+        tabs:
+          - attributes:
+              eventKey: actOnRequest
+              title: Act On Request
+            content:
+              load: actOnRequestForm
+          - attributes:
+              eventKey: actOnResponse
+              title: Act On Response
+            content:
+              load: actOnResponseForm
+          - attributes:
+              eventKey: actAfterResponse
+              title: Act After Response
+            content:
+              load: actAfterResponseForm
+
+
+listForms:
+  condition_item_row:
+    type: tr
+    content:
+      - type: td
+        content:
+          - type: span
+            content: ~.conditionName
+            actions:
+              - what: hide
+                when: ~.conditionName
+                isEmpty: true
+      - type: td
+        content:
+          - type: span
+            content:
+              - v
+              - ~.version
+            actions:
+              - what: hide
+                when: ~.version
+                isEmpty: true
+      - type: td
+        content:
+          - type: div
+            attributes:
+              class: d-flex gap-3
+            content:
+              - type: BsButton
+                content: ▲
+                actions:
+                  - what: moveData
+                    'on': click
+                    target: currentTemplateData
+                    parentLevel: 0
+                    increment: -1
+              - type: BsButton
+                content: ▼
+                actions:
+                  - what: moveData
+                    'on': click
+                    target: currentTemplateData
+                    parentLevel: 0
+                    increment: 1
+              - type: BsButton
+                content: ✎
+                actions:
+                  - what: setData
+                    'on': click
+                    path: ~._openEditModalCondition
+                    value: true
+                  - what: setData
+                    'on': click
+                    path: ~~._temp_edit_condition.options
+                    value: ~.options
+                  - what: setData
+                    'on': click
+                    path: ~~._temp_edit_condition.status
+                    value: ~.status
+                  - what: setData
+                    'on': click
+                    path: ~~._temp_edit_condition.subConditions
+                    value: ~.subConditions
+              - type: BsButton
+                content: ❌
+                actions:
+                  - what: removeData
+                    'on': click
+                    target: currentTemplateData
+
+          - type: Modal
+            attributes:
+              class: modal-lg
+              backdrop: static
+              style:
+                zIndex: 1050
+            showBoolPath: ~._openEditModalCondition
+            headerTitle: Edit the condition
+            closeButton: false
+            body:
+              - type: div
+                attributes:
+                  class: row
+                content:
+                # To load all conditions dynamically here.
+
+              - type: div
+                attributes:
+                  class: row mt-3
+                content:
+                  - type: div
+                    attributes:
+                      class: col-1
+                  - type: BsButton
+                    attributes:
+                      class: col-2 btn btn-secondary
+                    content: Cancel
+                    actions:
+                      - what: removeData
+                        'on': click
+                        path: ~~._temp_edit_condition
+                      - what: setData
+                        'on': click
+                        path: ~._openEditModalCondition
+                        value: false
+                      - what: removeData
+                        'on': click
+                        path: ~._openEditModalCondition
+                  - type: div
+                    attributes:
+                      class: col-6
+                  - type: BsButton
+                    attributes:
+                      class: col-2 btn btn-success
+                    content: Validate
+                    actions:
+                      - what: setData
+                        'on': click
+                        path: ~.options
+                        value: ~~._temp_edit_condition.options
+                      - what: setData
+                        'on': click
+                        path: ~.status
+                        value: ~~._temp_edit_condition.status
+                      - what: setData
+                        'on': click
+                        path: ~.subConditions
+                        value: ~~._temp_edit_condition.subConditions
+                      - what: removeData
+                        'on': click
+                        path: ~~._temp_edit_condition
+                      - what: setData
+                        'on': click
+                        path: ~._openEditModalCondition
+                        value: false
+                      - what: removeData
+                        'on': click
+                        path: ~._openEditModalCondition
+
+  conditionsListForm:
+    - type: div
+      content:
+        - type: table
+          attributes:
+            class: table
+          content:
+            - type: thead
+              content:
+                - type: tr
+                  content:
+                    - type: th
+                      content: Condition Name
+                    - type: th
+                      content: Version
+                    - type: th
+                      content: Actions
+            - type: tbody
+              content:
+                type: Switch
+                content: ~~._temp_edit_task.conditions
+                singleOption:
+                  load: condition_item_row
+
+        - type: div
+          content: No conditions for this task.
+          attributes:
+            class: text-muted fst-italic text-center m-2
+          actions:
+            - what: hide
+              whenDataCountOf: $._temp_edit_task.conditions[*]
+              inContext: global
+              isNot: 0
+
+        - type: div
+          attributes:
+            class: d-flex justify-content-center
+          content:
+            type: div
+            attributes:
+              class: d-flex
+            content:
+              - type: SelectField
+                dataLocation: ~~.selectedConditionToAdd
+                dynamicOptions: ~~.mostRecentConditions
+              - type: BsButton
+                attributes:
+                  class: btn-sm btn-secondary mx-3
+                content: +
+                actions:
+
+  task_item_row:
+    type: tr
+    content:
+      - type: td
+        content:
+          - type: span
+            content: ~.taskName
+            actions:
+              - what: hide
+                when: ~.taskName
+                isEmpty: true
+      - type: td
+        content:
+          - type: span
+            content:
+              - 'v'
+              - ~.version
+            actions:
+              - what: hide
+                when: ~.version
+                isEmpty: true
+      - type: td
+        content:
+          - type: div
+            attributes:
+              class: d-flex gap-3
+            content:
+              - type: BsButton
+                content: ▲
+                actions:
+                  - what: moveData
+                    'on': click
+                    target: currentTemplateData
+                    parentLevel: 0
+                    increment: -1
+              - type: BsButton
+                content: ▼
+                actions:
+                  - what: moveData
+                    'on': click
+                    target: currentTemplateData
+                    parentLevel: 0
+                    increment: 1
+              - type: BsButton
+                content: ✎
+                actions:
+                  - what: setData
+                    on: click
+                    path: ~._openEditModal
+                    value: true
+                  - what: setData
+                    on: click
+                    path: ~~._temp_edit_task.options
+                    value: ~.options
+                  - what: setData
+                    on: click
+                    path: ~~._temp_edit_task.conditions
+                    value: ~.conditions
+              - type: BsButton
+                content: ❌
+                actions:
+                  - what: removeData
+                    'on': click
+                    target: currentTemplateData
+
+          - type: Modal
+            attributes:
+              class: modal-lg
+              backdrop: static
+              style:
+                zIndex: 1050
+            showBoolPath: ~._openEditModal
+            headerTitle: Edit the task
+            closeButton: false
+            body:
+              - type: div
+                attributes:
+                  class: row
+                content:
+                # To load all tasks dynamically here.
+
+              - type: div
+                content:
+                  load: conditionsListForm
+
+              - type: div
+                attributes:
+                  class: row mt-3
+                content:
+                  - type: div
+                    attributes:
+                      class: col-1
+                  - type: BsButton
+                    attributes:
+                      class: col-2 btn btn-secondary
+                    content: Cancel
+                    actions:
+                      - what: removeData
+                        on: click
+                        path: ~~._temp_edit_task
+                      - what: setData
+                        on: click
+                        path: ~._openEditModal
+                        value: false
+                      - what: removeData
+                        on: click
+                        path: ~._openEditModal
+                  - type: div
+                    attributes:
+                      class: col-6
+                  - type: BsButton
+                    attributes:
+                      class: col-2 btn btn-success
+                    content: Validate
+                    actions:
+                      - what: setData
+                        on: click
+                        path: ~.options
+                        value: ~~._temp_edit_task.options
+                      - what: setData
+                        on: click
+                        path: ~.conditions
+                        value: ~~._temp_edit_task.conditions
+                      - what: removeData
+                        on: click
+                        path: ~~._temp_edit_task
+                      - what: setData
+                        on: click
+                        path: ~._openEditModal
+                        value: false
+                      - what: removeData
+                        on: click
+                        path: ~._openEditModal
+
+  actOnRequestForm:
+    - type: div
+      attributes:
+        class: pb-2
+      content:
+        - type: span
+          content: Tasks executing for request
+        - type: div
+          content:
+            - type: table
+              attributes:
+                class: table
+              content:
+                - type: thead
+                  content:
+                    - type: tr
+                      content:
+                        - type: th
+                          content: Task Name
+                        - type: th
+                          content: Version
+                        - type: th
+                          content: Actions
+                - type: tbody
+                  content:
+                    type: Switch
+                    content: ~~.tasks.tasksOnRequest
+                    singleOption:
+                      load: task_item_row
+
+            # No task on request.
+            - type: div
+              content: There is no task on request.
+              attributes:
+                class: text-muted fst-italic text-center m-2
+              actions:
+                - what: hide
+                  whenDataCountOf: $.tasks.tasksOnRequest[*]
+                  inContext: global
+                  isNot: 0
+
+            - type: div
+              attributes:
+                class: d-flex justify-content-center
+              content:
+                type: div
+                attributes:
+                  class: d-flex
+                content:
+                  - type: SelectField
+                    dataLocation: ~~.selectedTaskToAdd
+                    dynamicOptions: ~~.mostRecentTasks
+                  - type: BsButton
+                    attributes:
+                      class: btn-sm btn-secondary mx-3
+                    content: +
+                    actions:
+
+  actOnResponseForm:
+    - type: div
+      attributes:
+        class: pb-2
+      content:
+        - type: span
+          content: Tasks executing for response
+        - type: div
+          content:
+            - type: table
+              attributes:
+                class: table
+              content:
+                - type: thead
+                  content:
+                    - type: tr
+                      content:
+                        - type: th
+                          content: Task Name
+                        - type: th
+                          content: Version
+                        - type: th
+                          content: Actions
+                - type: tbody
+                  content:
+                    type: Switch
+                    content: ~~.tasks.tasksOnResponse
+                    singleOption:
+                      load: task_item_row
+
+            - type: div
+              content: There is no task on response.
+              attributes:
+                class: text-muted fst-italic text-center m-2
+              actions:
+                - what: hide
+                  whenDataCountOf: $.tasks.tasksOnResponse[*]
+                  inContext: global
+                  isNot: 0
+
+            - type: div
+              attributes:
+                class: d-flex justify-content-center
+              content:
+                type: div
+                attributes:
+                  class: d-flex
+                content:
+                  - type: SelectField
+                    dataLocation: ~~.selectedTaskToAdd
+                    dynamicOptions: ~~.mostRecentTasks
+                  - type: BsButton
+                    attributes:
+                      class: btn-sm btn-secondary mx-3
+                    content: +
+                    actions:
+
+  actAfterResponseForm:
+    - type: div
+      attributes:
+        class: pb-2
+      content:
+        - type: span
+          content: Tasks executing after response
+        - type: div
+          content:
+            - type: table
+              attributes:
+                class: table
+              content:
+                - type: thead
+                  content:
+                    - type: tr
+                      content:
+                        - type: th
+                          content: Task Name
+                        - type: th
+                          content: Version
+                        - type: th
+                          content: Actions
+                - type: tbody
+                  content:
+                    type: Switch
+                    content: ~~.tasks.tasksAfterResponse
+                    singleOption:
+                      load: task_item_row
+
+            - # No task after response.
+              type: div
+              content: There is no task after response.
+              attributes:
+                class: text-muted fst-italic text-center m-2
+              actions:
+                - what: hide
+                  whenDataCountOf: $.tasks.tasksAfterResponse[*]
+                  inContext: global
+                  isNot: 0
+
+            - type: div
+              attributes:
+                class: d-flex justify-content-center
+              content:
+                type: div
+                attributes:
+                  class: d-flex
+                content:
+                  - type: SelectField
+                    dataLocation: ~~.selectedTaskToAdd
+                    dynamicOptions: ~~.mostRecentTasks
+                  - type: BsButton
+                    attributes:
+                      class: btn-sm btn-secondary mx-3
+                    content: +
+                    actions:
+
+
+data:
+  name: ''
+  wsid: ''
+  tasks:
+    tasksOnRequest: []
+    tasksOnResponse: []
+    tasksAfterResponse: []

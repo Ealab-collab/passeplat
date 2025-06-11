@@ -1,0 +1,93 @@
+renderView:
+  - type: div
+    attributes:
+      class: container my-3
+    content:
+      # Navbar.
+      - type: nav
+        attributes:
+          class: navbar navbar-expand-lg navbar-light bg-light
+        content:
+          - type: div
+            attributes:
+              class: container-fluid d-flex align-items-center
+            content:
+              # Link: Webservices.
+              - type: a
+                attributes:
+                  class: nav-link px-3
+                  href: '/build/webservices.php'
+                content: Webservices
+
+              # SelectField.
+              - type: SelectField
+                actions:
+                  - what: redirect
+                    when: ~~.selectedWebservice
+                    isNot: All
+                    to: ~~.selectedWebservice
+                attributes:
+                  class: form-select me-3
+                  style:
+                    width: 300px
+                dataLocation: ~~.selectedWebservice
+                dynamicOptions: ~~.webservices
+
+              # Links: Dashboard, Logs, Edit.
+              - type: div
+                actions:
+                  - what: hide
+                    when: ~~.locked
+                    is: true
+                attributes:
+                  class: ms-auto
+                content:
+                  - type: ul
+                    attributes:
+                      class: navbar-nav d-flex flex-row
+                    content:
+                      - type: li
+                        attributes:
+                          class: nav-item
+                        content:
+                          - type: a
+                            attributes:
+                              class: nav-link px-3
+                              href: "/build/dashboard.php"
+                            content: Dashboard
+                      - type: li
+                        attributes:
+                          class: nav-item
+                        content:
+                          - type: a
+                            attributes:
+                              class: nav-link px-3
+                              href: "/build/errors.php"
+                            content: Errors
+                      - type: li
+                        attributes:
+                          class: nav-item
+                        content:
+                          - type: a
+                            attributes:
+                              class: nav-link px-3
+                              href: "/build/logs.php"
+                            content: Logs
+                      - type: li
+                        attributes:
+                          class: nav-item
+                        content:
+                          - type: a
+                            attributes:
+                              class: nav-link px-3
+                              href: "/build/webservice-edit.php"
+                            content: Edit
+
+listForms: []
+
+data:
+  locked: true
+  webservices:
+    - label: "-- List of my webservices --"
+      value: All
+  selectedWebservice: "All"

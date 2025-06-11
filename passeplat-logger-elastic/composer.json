@@ -1,0 +1,29 @@
+{
+    "name": "emerya/passeplat-logger-elastic",
+    "description": "Logger module for passeplat using elastic as the log backend.",
+    "type": "library",
+    "require": {
+        "emerya/passeplat-core": "@dev",
+        "elasticsearch/elasticsearch": "~7.0",
+        "ext-json": "*",
+        "php": ">=7.2"
+    },
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Quang-Minh",
+            "email": "quang-minh@emerya.fr"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PassePlat\\Logger\\Elastic\\": "src/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../passeplat-core"
+        }
+    ]
+}

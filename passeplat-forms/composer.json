@@ -1,0 +1,25 @@
+{
+  "name": "emerya/passeplat-forms",
+  "description": "Chart generation tool",
+  "type": "library",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Yosri",
+      "email": "yosri@emerya.fr"
+    }
+  ],
+  "require": {
+    "dakwamine/component-based-object": "^3.0",
+    "emerya/passeplat-openapi": "@dev",
+    "emerya/passeplat-core": "@dev",
+    "php": ">=7.2",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "PassePlat\\Forms\\": "src/"
+    }
+  }
+}

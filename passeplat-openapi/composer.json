@@ -1,0 +1,23 @@
+{
+    "name": "emerya/passeplat-openapi",
+    "description": "OpenAPI generation tool",
+    "type": "library",
+    "require": {
+        "emerya/passeplat-core": "@dev",
+        "marcelthole/openapi-merge": "1.4",
+        "league/openapi-psr7-validator": "~0.21",
+        "php": "~7.4.0"
+    },
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Yosri",
+            "email": "yosri@emerya.fr"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PassePlat\\Openapi\\": "src/"
+        }
+    }
+}

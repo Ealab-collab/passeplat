@@ -1,0 +1,59 @@
+{
+    "name": "ea-lab/passeplat",
+    "description": "PassePlat is a tool which analyses web streams between initiator and destination.",
+    "type": "project",
+    "require": {
+        "emerya/passeplat-core": "dev-master",
+        "emerya/passeplat-logger-elastic": "dev-master",
+        "emerya/passeplat-ftp": "dev-master",
+        "emerya/passeplat-tasks": "dev-master",
+        "emerya/passeplat-openapi": "@dev",
+        "ext-json": "*",
+        "emerya/passeplat-forms": "@dev"
+    },
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Quang-Minh",
+            "email": "quang-minh@emerya.fr"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "passeplat-core"
+        },
+        {
+            "type": "path",
+            "url": "passeplat-logger-elastic"
+        },
+        {
+            "type": "path",
+            "url": "passeplat-ftp"
+        },
+        {
+            "type": "path",
+            "url": "passeplat-tasks"
+        },
+        {
+            "type": "path",
+            "url": "passeplat-openapi"
+        },
+        {
+            "type": "path",
+            "url": "passeplat-forms"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PassePlat\\App\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "platform": {
+            "php": "7.4"
+        }
+    }
+}

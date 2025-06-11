@@ -1,0 +1,29 @@
+{
+    "name": "emerya/passeplat-core",
+    "description": "PassePlat is a tool which analyses web streams between initiator and destination.",
+    "type": "library",
+    "require": {
+        "brick/math": "^0.9",
+        "dakwamine/component-based-object": "^3.0",
+        "dakwamine/component-based-object-event-dispatcher": "^2.0",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^7.2",
+        "guzzlehttp/psr7": "^1.7",
+        "phlak/config": "^7.0",
+        "php": ">=7.2",
+        "shrikeh/teapot": "^2.3",
+        "softcreatr/jsonpath": "^0.7 || ^0.8"
+    },
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Quang-Minh",
+            "email": "quang-minh@emerya.fr"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PassePlat\\Core\\": "src/"
+        }
+    }
+}

@@ -1,0 +1,389 @@
+---
+renderView:
+  - type: div
+    attributes:
+      class: container-fluid
+    content:
+      # Input.
+      - type: div
+        content:
+        # A div for labels.
+        - type: div
+          attributes:
+            class: row my-1
+          content:
+            - type: div
+              attributes:
+                class: col-3
+              content:
+                - type: label
+                  content: "Start Date:"
+            - type: div
+              attributes:
+                class: col-3
+              content:
+                - type: label
+                  content: "End Date:"
+            # Empty label for Search button.
+            - type: div
+              attributes:
+                class: col-1
+              content: ''
+        # The different elements for filters and search.
+        - type: div
+          attributes:
+            class: row
+          content:
+            # The start Date.
+            - type: div
+              attributes:
+                class: col-3
+              content:
+                - type: DateField
+                  dataLocation: ~~.startDateFilter
+            # The End Date.
+            - type: div
+              attributes:
+                class: col-3
+              content:
+                - type: DateField
+                  dataLocation: ~~.endDateFilter
+            # The Search button.
+            - type: div
+              attributes:
+                class: col-1
+              content:
+                - type: button
+                  actions:
+                    - what: submitData
+                      url: ~~.apiEndpoint
+                      on: click
+                  attributes:
+                    class: btn btn-primary
+                  content: '🔎'
+
+      # Output.
+      - type: div
+        attributes:
+          class: mt-5
+        content:
+          - type: div
+            content:
+            - type: h3
+              content: 'Validation openapi errors'
+            # If no errors.
+            - type: div
+              attributes:
+                class: row
+              actions:
+                - what: hide
+                  when: ~.totalValidationErrors
+                  isNot: 0
+              content:
+                - type: h6
+                  content: No validation errors found for the selected dates.
+            # If there are errors.
+            - type: div
+              actions:
+                - what: hide
+                  when: ~.totalValidationErrors
+                  is: 0
+              content:
+              - type: div
+                attributes:
+                  class: row
+                content:
+                - type: h6
+                  content:
+                    - ~~.totalValidationErrors
+                    - " errors have been detected, and their distribution is displayed in the following charts:"
+              - type: div
+                attributes:
+                  class: row mx-2 my-2
+                content:
+                - type: div
+                  attributes:
+                    style:
+                      width: 80%
+                  content:
+                    - type: BarChart
+                      attributes:
+                        style:
+                          width: 100%
+                          height: auto
+                      options:
+                        responsive: true
+                        maintainAspectRatio: false
+                        plugins:
+                          legend:
+                            position: bottom
+                      data: ~~.errorTypesChart
+                - type: div
+                  attributes:
+                    class: mt-2 text-center
+                  content:
+                  - type: h6
+                    content: "Validation errors distribution by type."
+
+              - type: div
+                attributes:
+                  class: row border mx-2 my-2
+                content:
+                  - type: div
+                    attributes:
+                      style:
+                        width: 80%
+                    content:
+                      - type: DoughnutChart
+                        attributes:
+                          style:
+                            width: 100%
+                            height: auto
+                        options:
+                          responsive: true
+                          maintainAspectRatio: false
+                          plugins:
+                            legend:
+                              position: left
+                        data: ~~.errorCategoriesChart
+                  - type: div
+                    attributes:
+                      class: mt-2 text-center
+                    content:
+                      - type: h6
+                        content: "Validation errors distribution by category."
+
+
+              - type: div
+                attributes:
+                  class: row mx-2 my-2
+                content:
+                  - type: div
+                    attributes:
+                      style:
+                        width: 90%
+                    content:
+                      - type: PolarAreaChart
+                        attributes:
+                          style:
+                            width: 100%
+                            height: auto
+                        options:
+                          responsive: true
+                          maintainAspectRatio: false
+                          plugins:
+                            legend:
+                              position: right
+                        data: ~~.errorItemsChart
+                  - type: div
+                    attributes:
+                      class: mt-2 text-center
+                    content:
+                      - type: h6
+                        content: "Validation errors distribution by item."
+
+          - type: div
+            content:
+              - type: h3
+                content: 'Logs Charts'
+              - type: div
+                attributes:
+                  class: row mx-2 my-2
+                content:
+                  - type: div
+                    attributes:
+                      style:
+                        width: 80%
+                    content:
+                      - type: LineChart
+                        attributes:
+                          style:
+                            width: 100%;
+                        options:
+                          plugins:
+                            legend:
+                              position: bottom
+                            filler:
+                              propagate: true
+                          elements:
+                            line:
+                              tension: 0.4
+                              borderWidth: 2
+                            point:
+                              radius: 0
+                          scales:
+                            y:
+                              stacked: true
+                        data: ~~.historyChart
+              - type: div
+                attributes:
+                  class: row mx-2 my-2
+                content:
+                  - type: div
+                    attributes:
+                      style:
+                        width: 80%
+                    content:
+                      - type: LineChart
+                        attributes:
+                          style:
+                            width: 100%;
+                        options:
+                          plugins:
+                            legend:
+                              position: bottom
+                            filler:
+                              propagate: true
+                          elements:
+                            line:
+                              tension: 0.4
+                              borderWidth: 2
+                            point:
+                              radius: 0
+                        data: ~~.performanceChart
+
+listForms: []
+
+data:
+  totalValidationErrors: 0
+
+  startDateFilter: ''
+  endDateFilter: ''
+  wsid: ''
+
+  apiEndpoint: '/forms/dashboard.php'
+
+  errorTypesChart:
+    labels:
+      - Request Errors
+      - Response Errors
+    datasets:
+      - label: Distribution of Validation Errors Between Requests and Responses
+        data:
+          - 0
+          - 0
+        backgroundColor:
+          - rgb(255, 99, 132)
+          - rgb(54, 162, 235)
+        borderColor:
+          - rgba(255, 99, 132, 0.7)
+          - rgba(54, 162, 235, 0.7)
+        borderWidth: 1
+
+  errorCategoriesChart:
+    labels:
+      - Parsing Errors
+      - Schema Errors
+      - Value Errors
+    datasets:
+      - label: Distribution of Validation Errors by Category
+        data:
+          - 0
+          - 0
+          - 0
+        backgroundColor:
+          - rgb(75, 192, 192)
+          - rgb(255, 205, 86)
+          - rgb(54, 162, 235)
+        borderColor:
+          - rgba(75, 192, 192, 0.7)
+          - rgba(255, 205, 86, 0.7)
+          - rgba(54, 162, 235, 0.7)
+        borderWidth: 1
+
+  errorItemsChart:
+    labels:
+      - Body Errors
+      - Cookies Errors
+      - Headers Errors
+      - Path Errors
+      - Query Errors
+      - Security Errors
+    datasets:
+      - label: Distribution of Validation Errors by Item
+        data:
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+        backgroundColor:
+          - rgba(255, 99, 132, 0.6)
+          - rgba(54, 162, 235, 0.6)
+          - rgba(255, 206, 86, 0.6)
+          - rgba(75, 192, 192, 0.6)
+          - rgba(153, 102, 255, 0.6)
+          - rgba(255, 159, 64, 0.6)
+        borderColor:
+          - rgba(255, 99, 132, 1)
+          - rgba(54, 162, 235, 1)
+          - rgba(255, 206, 86, 1)
+          - rgba(75, 192, 192, 1)
+          - rgba(153, 102, 255, 1)
+          - rgba(255, 159, 64, 1)
+        borderWidth: 1
+
+
+  historyChart:
+    labels: []
+      # - '2024-06-20 13:44:15'
+      # - '2024-06-20 13:44:20'
+    datasets:
+      - label: "Success (2XX)"
+        # data: [ 10, 0, 0, 100, 0, 1 ]
+        data: []
+        fill: true
+        backgroundColor: rgba(0, 250, 0, 0.4)
+        borderColor: rgba(0, 250, 0, 1)
+        borderWidth: 2
+      - label: "Success by WS (2XX)"
+        data: []
+        fill: true
+        backgroundColor: rgba(0, 150, 0, 0.4)
+        borderColor: rgba(0, 150, 0, 1)
+        borderWidth: 2
+      - label: "Redirected (3XX)"
+        data: []
+        fill: true
+        backgroundColor: rgba(0, 128, 255, 0.4)
+        borderColor: rgba(0, 128, 255, 1)
+        borderWidth: 2
+      - label: "Redirected by WS (3XX)"
+        data: []
+        fill: true
+        backgroundColor: rgba(0, 80, 200, 0.4)
+        borderColor: rgba(0, 80, 200, 1)
+        borderWidth: 2
+      - label: "App error (4XX)"
+        data: []
+        fill: true
+        backgroundColor: rgba(255, 165, 0, 0.4)
+        borderColor: rgba(255, 165, 0, 1)
+        borderWidth: 2
+      - label: "Stopped by WS (4XX)"
+        data: []
+        fill: true
+        backgroundColor: rgba(200, 120, 0, 0.4)
+        borderColor: rgba(200, 120, 0, 1)
+        borderWidth: 2
+      - label: "Server error (5XX)"
+        data: []
+        fill: true
+        backgroundColor: rgba(250, 0, 0, 0.4)
+        borderColor: rgba(250, 0, 0, 1)
+        borderWidth: 2
+
+  performanceChart:
+    labels: [ ]
+    # - '2024-06-20 13:44:15'
+    # - '2024-06-20 13:44:20'
+    datasets:
+      - label: "Response time (s)"
+        # data: [ 10, 0, 0, 100, 0, 1 ]
+        data: [ ]
+        fill: true
+        backgroundColor: rgba(0, 128, 255, 0.4)
+        borderColor: rgba(0, 128, 255, 1)
+        borderWidth: 2
+
