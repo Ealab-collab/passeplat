@@ -3,45 +3,23 @@
     "description": "PassePlat is a tool which analyses web streams between initiator and destination.",
     "type": "project",
     "require": {
-        "emerya/passeplat-core": "dev-master",
-        "emerya/passeplat-logger-elastic": "dev-master",
-        "emerya/passeplat-ftp": "dev-master",
-        "emerya/passeplat-tasks": "dev-master",
-        "emerya/passeplat-openapi": "@dev",
+        "php": ">=7.2",
         "ext-json": "*",
-        "emerya/passeplat-forms": "@dev"
+        "brick/math": "^0.9",
+        "guzzlehttp/guzzle": "^7.2",
+        "guzzlehttp/psr7": "^1.7",
+        "phlak/config": "^7.0",
+        "shrikeh/teapot": "^2.3",
+        "softcreatr/jsonpath": "^0.7 || ^0.8",
+        "dakwamine/component-based-object": "^3.0",
+        "dakwamine/component-based-object-event-dispatcher": "^2.0",
+        "elasticsearch/elasticsearch": "~7.0"
     },
     "license": "proprietary",
     "authors": [
         {
             "name": "Quang-Minh",
             "email": "quang-minh@emerya.fr"
-        }
-    ],
-    "repositories": [
-        {
-            "type": "path",
-            "url": "passeplat-core"
-        },
-        {
-            "type": "path",
-            "url": "passeplat-logger-elastic"
-        },
-        {
-            "type": "path",
-            "url": "passeplat-ftp"
-        },
-        {
-            "type": "path",
-            "url": "passeplat-tasks"
-        },
-        {
-            "type": "path",
-            "url": "passeplat-openapi"
-        },
-        {
-            "type": "path",
-            "url": "passeplat-forms"
         }
     ],
     "autoload": {
