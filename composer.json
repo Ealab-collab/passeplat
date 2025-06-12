@@ -7,7 +7,7 @@
         "ext-json": "*",
         "brick/math": "^0.9",
         "guzzlehttp/guzzle": "^7.2",
-        "guzzlehttp/psr7": ">=^1.7",
+        "guzzlehttp/psr7": ">=1.7",
         "phlak/config": "^7.0",
         "shrikeh/teapot": "^2.3",
         "softcreatr/jsonpath": "^0.7 || ^0.8",
