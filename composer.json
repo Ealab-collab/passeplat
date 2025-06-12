@@ -9,7 +9,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "guzzlehttp/psr7": ">=1.7",
         "phlak/config": ">=7.0",
-        "shrikeh/teapot": "^2.3",
+        "shrikeh/teapot": ">=2.3",
         "softcreatr/jsonpath": "^0.7 || ^0.8",
         "dakwamine/component-based-object": "^3.0",
         "dakwamine/component-based-object-event-dispatcher": "^2.0",
