@@ -5,7 +5,6 @@ namespace PassePlat\Core\StreamProcessor;
 use Dakwamine\Component\ComponentBasedObject;
 use Dakwamine\Component\Event\EventDispatcher;
 use Dakwamine\Component\RootDependencyDefinition;
-use GuzzleHttp\Psr7\ServerRequest;
 use GuzzleHttp\Psr7\Uri;
 use PassePlat\Core\AnalyzableContent\AnalyzableContent;
 use PassePlat\Core\AnalyzableContent\AnalyzableContentComponent\RequestInfo;
@@ -114,9 +113,12 @@ class StreamProcessor extends ComponentBasedObject implements StreamProcessorInt
      * @throws BadRequestException
      * @throws HttpException
      */
-    public function processRequestFromGlobals(AnalyzableContent $analyzableContent): void
+    public function processRequestFromGlobals(AnalyzableContent $analyzableContent, ?ServerRequestInterface $request=NULL): void
     {
+      if(empty($request))
+      {
         $request = ServerRequest::fromGlobals();
+      }
         $this->processRequest($request, $analyzableContent);
     }
 }

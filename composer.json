@@ -23,7 +23,10 @@
     ],
     "autoload": {
         "psr-4": {
-            "PassePlat\\App\\": "src/"
+            "PassePlat\\App\\": "src/",
+            "PassePlat\\Core\\": "passeplat-core/src",
+            "PassePlat\\Forms\\": "passeplat-forms/src/",
+            "PassePlat\\Tasks\\": "passeplat-tasks/src/"
         }
     },
     "minimum-stability": "dev",
