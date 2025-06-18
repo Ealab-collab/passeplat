@@ -1,10 +1,11 @@
 <?php
 
+/*
 require_once __DIR__ . '/../../vendor/emerya/passeplat-tasks/init.emerya.passeplat-tasks.php';
 require_once __DIR__ . '/../../vendor/emerya/passeplat-core/init.emerya.passeplat-core.php';
 require_once __DIR__ . '/../../vendor/emerya/passeplat-logger-elastic/init.emerya.passeplat-logger-elastic.php';
 require_once __DIR__ . '/../../vendor/emerya/passeplat-openapi/init.emerya.passeplat-openapi.php';
-
+*/
 /*
 The following code is deprecated and will be removed in future versions.
 However, note that this deprecation does not apply to the required parts above.

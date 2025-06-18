@@ -27,7 +27,13 @@
             "PassePlat\\Core\\": "passeplat-core/src",
             "PassePlat\\Forms\\": "passeplat-forms/src/",
             "PassePlat\\Tasks\\": "passeplat-tasks/src/"
-        }
+        },
+          "files": [
+            "src/Task/init.php",
+            "passeplat-tasks/init.emerya.passeplat-tasks.php",
+            "passeplat-core/init.emerya.passeplat-core.php",
+            "passeplat-logger-elastic/init.emerya.passeplat-logger-elastic.php"
+        ]
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
