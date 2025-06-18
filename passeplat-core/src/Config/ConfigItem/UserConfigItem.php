@@ -17,7 +17,7 @@ class UserConfigItem extends ConfigItem
      *
      * @var UserManagerInterface
      */
-    private $userManager;
+    protected $userManager;
 
     public function getConfigId(): string
     {
