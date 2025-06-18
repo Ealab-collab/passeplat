@@ -7,16 +7,6 @@ use PassePlat\Core\StreamProcessor\SchemeProcessor\Event\ProcessSchemeEvent;
 use PassePlat\Core\StreamProcessor\SchemeProcessor\HttpSchemeProcessor;
 use PassePlat\Core\StreamProcessor\SchemeProcessor\Task\TaskHandlerBase;
 
-$passePlat->registerEventListeners([
-    new EventListenerDefinition(
-        ProcessSchemeEvent::EVENT_NAME,
-        HttpSchemeProcessor::class
-    ),
-    new EventListenerDefinition(
-        GetEnabledConfigItemEvent::EVENT_NAME,
-        Configuration::class
-    ),
-]);
 
 $basePath = dirname(__FILE__) . '/src/StreamProcessor/SchemeProcessor/Task';
 $rdi = new RecursiveDirectoryIterator($basePath);

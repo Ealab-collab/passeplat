@@ -23,6 +23,7 @@ use PassePlat\Core\Config\Event\GetEnabledConfigItemEvent;
 use PassePlat\Logger\Elastic\StreamProcessor\SchemeProcessor\Task\ElasticsearchLogger_0;
 use PassePlat\Core\StreamProcessor\SchemeProcessor\Event\ProcessSchemeEvent;
 use PassePlat\Ftp\StreamProcessor\SchemeProcessor\FtpSchemeProcessor;
+use  PassePlat\Core\StreamProcessor\SchemeProcessor\HttpSchemeProcessor;
 
 /**
  * Main entry point for passeplat app.
@@ -82,6 +83,16 @@ class PassePlat extends ComponentBasedObject {
    * {@inheritDoc}
    */
   protected function onReady(): void {
+	  $this->registerEventListeners([
+		  new EventListenerDefinition(
+			  ProcessSchemeEvent::EVENT_NAME,
+			  HttpSchemeProcessor::class
+		  ),
+		  new EventListenerDefinition(
+			  GetEnabledConfigItemEvent::EVENT_NAME,
+			  Configuration::class
+		  ),
+	  ]);
     // Register elastic logger event.
     // @todo maybe try to external this.
     $this->registerEventListeners([
