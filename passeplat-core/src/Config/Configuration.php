@@ -11,6 +11,7 @@ use Dakwamine\Component\RootDependencyDefinition;
 use PassePlat\Core\Config\ConfigItem\ConfigItem;
 use PassePlat\Core\Config\ConfigItem\TrustedHostPatternConfigItem;
 use PassePlat\Core\Config\ConfigItem\UserConfigItem;
+use PassePlat\Core\Config\ConfigItem\WebServiceConfigItem;
 use PassePlat\Core\Config\Event\GetEnabledConfigItemEvent;
 use PassePlat\Core\Exception\ConfigException;
 
@@ -69,6 +70,7 @@ class Configuration extends ComponentBasedObject implements EventListenerInterfa
         return [
             TrustedHostPatternConfigItem::class,
             UserConfigItem::class,
+            WebServiceConfigItem::class,
         ];
     }
 

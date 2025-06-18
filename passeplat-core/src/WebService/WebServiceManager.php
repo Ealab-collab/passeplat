@@ -9,6 +9,7 @@ use GuzzleHttp\Psr7\Uri;
 use PassePlat\Core\Config\ConfigLoader;
 use PassePlat\Core\Exception\AuthenticationException;
 use PassePlat\Core\Exception\ConfigException;
+use PassePlat\Core\Exception\UserException;
 use PassePlat\Core\Exception\UserNotFoundException;
 use PassePlat\Core\Exception\WebServiceInvalidUriException;
 use PassePlat\Core\Security\HostChecker;
@@ -17,9 +18,13 @@ use PassePlat\Core\Tool\UrlQueryParser;
 use PassePlat\Core\User\Authenticator\Authenticator;
 use PassePlat\Core\User\Authenticator\AuthenticatorInterface;
 use PassePlat\Core\User\Authenticator\QueryParametersAuthenticationStrategy;
+use PassePlat\Core\User\Repository\LocalConfigUserRepository;
+use PassePlat\Core\User\Repository\UserRepository;
 use PassePlat\Core\User\UserInterface;
 use PassePlat\Core\User\UserManager;
 use PassePlat\Core\User\UserManagerInterface;
+use PassePlat\Core\WebService\Repository\LocalConfigWebServiceRepository;
+use PassePlat\Core\WebService\Repository\WebServiceRepository;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
 
@@ -28,6 +33,8 @@ use Psr\Http\Message\UriInterface;
  */
 class WebServiceManager extends ComponentBasedObject implements WebServiceManagerInterface
 {
+  const REPOSITORY_TYPE__LOCAL_CONFIG = 'REPOSITORY_TYPE__LOCAL_CONFIG';
+  const REPOSITORY_TYPE__NONE = 'REPOSITORY_TYPE__NONE';
     /**
      * Authenticator.
      *
@@ -48,6 +55,7 @@ class WebServiceManager extends ComponentBasedObject implements WebServiceManage
      * @var UserManagerInterface
      */
     private $userManager;
+    private WebServiceRepository$webserviceRepository;
 
     /**
      * Extracts web service parameters from the URL.
@@ -73,7 +81,18 @@ class WebServiceManager extends ComponentBasedObject implements WebServiceManage
 
         return null;
     }
-
+    /**
+     * Allowed repository types.
+     *
+     * @return string[]
+     *   Array of allowed repository types.
+     */
+    private function getAllowedRepositoryTypes()
+    {
+      return [
+        LocalConfigWebServiceRepository::class => static::REPOSITORY_TYPE__LOCAL_CONFIG,
+      ];
+    }
     /**
      * Extracts the destination URL from the server incoming request URL or query parameters.
      *
@@ -225,7 +244,7 @@ class WebServiceManager extends ComponentBasedObject implements WebServiceManage
         try {
             // Load the tasks affiliated to this web service ID.
             // Note: fallback config may be returned.
-            $webServiceConfig = $this->loadWebServiceConfigFromFileSystem($webServiceId, $user->getId());
+            $webServiceConfig = $this->webserviceRepository->loadWebServiceConfigFromFileSystem($webServiceId, $user->getId());
         } catch (ConfigException $e) {
             // Attempt to deliver the streams without doing anything else.
             $webServiceConfig = [];
@@ -237,48 +256,6 @@ class WebServiceManager extends ComponentBasedObject implements WebServiceManage
         return $webService;
     }
 
-    /**
-     * Loads the config file for the web service identified by the given arguments.
-     *
-     * @param string $webServiceId
-     *   ID of the web service.
-     * @param string $userId
-     *   ID of the user who attempts to use the web service.
-     *
-     * @return array
-     *   Array of data.
-     *
-     * @throws UnmetDependencyException
-     * @throws ConfigException
-     */
-    private function loadWebServiceConfigFromFileSystem(string $webServiceId, string $userId): array
-    {
-        /** @var ConfigLoader $configLoader */
-        $configLoader = $this->getComponentByClassName(ConfigLoader::class, true);
-
-        // Load webservice-specific config.
-        $configs = $configLoader->loadConfigFromDirectory('config/app/webservice', $webServiceId);
-
-        if (!empty($configs)) {
-            return reset($configs);
-        }
-
-        // Load the default user config.
-        $userConfig = $configLoader->loadConfigFromDirectory('config/app/webservice', $userId);
-
-        if (!empty($userConfig[$userId])) {
-            return $userConfig[$userId];
-        }
-
-        // Load the application wide default config.
-        $userConfig = $configLoader->loadConfigFromDirectory('config/app/webservice', 'default');
-
-        if (!empty($userConfig['default'])) {
-            return $userConfig['default'];
-        }
-
-        return [];
-    }
 
     /**
      * Extracts web service parameters from the URL with BASE host type.
@@ -431,4 +408,39 @@ class WebServiceManager extends ComponentBasedObject implements WebServiceManage
 
         return $return;
     }
+  public function setRepositoryType(string $repositoryType): void
+  {
+    $repositoryClass = '';
+
+    foreach ($this->getAllowedRepositoryTypes() as $className => $type) {
+      if ($repositoryType === $type) {
+        $repositoryClass = $className;
+        break;
+      }
+    }
+
+    if (empty($repositoryClass)) {
+      throw new UserRepositoryException(
+        'Invalid user repository type.'
+      );
+    }
+
+    if ($this->currentRepositoryType === $repositoryType) {
+      // Already loaded.
+      return;
+    }
+
+    // Remove current repository (if any).
+    $this->removeComponentsByClassName(WebServiceRepository::class);
+
+    try {
+      // Append new repository. This is expected to work without failure.
+      $this->webserviceRepository = $this->addComponentByClassName($repositoryClass);
+    } catch (UnmetDependencyException $e) {
+      throw new UserException('Could not load user repository component.', $e);
+    }
+
+    // Changed current repository type.
+    $this->currentRepositoryType = $repositoryType;
+  }
 }

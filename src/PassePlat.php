@@ -37,37 +37,37 @@ class PassePlat extends ComponentBasedObject {
    *
    * @var AnalyzableContent
    */
-  private $analyzableContent;
+  protected $analyzableContent;
 
   /**
    * Configuration holder.
    *
    * @var Configuration
    */
-  private $configuration;
+  protected $configuration;
 
   /**
    * Listener provider.
    *
    * @var ListenerProviderInterface
    */
-  private $listenerProvider;
+  protected $listenerProvider;
 
   /**
    * Passe plat response factory.
    *
    * @var PassePlatResponseFactory
    */
-  private $passePlatResponseFactory;
+  protected $passePlatResponseFactory;
 
   /**
    * Stream processor.
    *
    * @var StreamProcessor
    */
-  private $streamProcessor;
+  protected $streamProcessor;
 
-  private ServerRequestInterface $request;
+  protected ServerRequestInterface $request;
 
   public function getDependencyDefinitions(): array {
     $definitions = parent::getDependencyDefinitions();
@@ -123,7 +123,7 @@ class PassePlat extends ComponentBasedObject {
     $this->request = $request;
   }
 
-  /**
+    /**
    * Starts the main stuff.
    */
   public function processStream(): void {
