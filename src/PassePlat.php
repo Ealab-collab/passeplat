@@ -18,6 +18,11 @@ use PassePlat\Core\PassePlatResponseFactory;
 use PassePlat\Core\StreamProcessor\StreamProcessor;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\StatusCode;
+use PassePlat\App\EventListenerDefinition;
+use PassePlat\Core\Config\Event\GetEnabledConfigItemEvent;
+use PassePlat\Logger\Elastic\StreamProcessor\SchemeProcessor\Task\ElasticsearchLogger_0;
+use PassePlat\Core\StreamProcessor\SchemeProcessor\Event\ProcessSchemeEvent;
+use PassePlat\Ftp\StreamProcessor\SchemeProcessor\FtpSchemeProcessor;
 
 /**
  * Main entry point for passeplat app.
@@ -73,6 +78,27 @@ class PassePlat extends ComponentBasedObject {
     return $definitions;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  protected function onReady(): void {
+    // Register elastic logger event.
+    // @todo maybe try to external this.
+    $this->registerEventListeners([
+      new EventListenerDefinition(
+        GetEnabledConfigItemEvent::EVENT_NAME,
+        ElasticsearchLogger_0::class
+      ),
+    ]);
+
+    $this->registerEventListeners([
+      new EventListenerDefinition(
+       ProcessSchemeEvent::EVENT_NAME,
+       FtpSchemeProcessor::class
+      ),
+    ]);
+
+  }
   /**
    * Loads the main configuration.
    *
