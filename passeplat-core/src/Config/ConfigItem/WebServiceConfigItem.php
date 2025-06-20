@@ -13,44 +13,48 @@ use PassePlat\Core\WebService\WebServiceManager;
  */
 class WebServiceConfigItem extends ConfigItem
 {
-  
-  protected $webserviceManager;
+    /**
+     * User manager.
+     *
+     * @var UserManagerInterface
+     */
+    protected $webserviceManager;
 
-  public function getConfigId(): string
-  {
-    return 'webservice.passeplat-core';
-  }
-
-  public function getDependencyDefinitions(): array
-  {
-    $definitions = parent::getDependencyDefinitions();
-    $definitions[] = new RootDependencyDefinition(WebServiceManager::class, $this->webserviceManager);
-    return $definitions;
-  }
-
-  public function setValues(array $values): void
-  {
-    unset($this->config);
-
-    if (empty($values)) {
-      return;
+    public function getConfigId(): string
+    {
+        return 'web-service.passeplat-core';
     }
 
-    $this->config = $values;
-
-    if (!empty($values['repository']['type'])) {
-      if (!($userManager = $this->webserviceManager)) {
-        // No user manager.
-        return;
-      }
-
-      try {
-        // Get the user manager and set the repository type.
-        $userManager->setRepositoryType($values['repository']['type']);
-      } catch (UserException $e) {
-        // No repository will be set.
-        return;
-      }
+    public function getDependencyDefinitions(): array
+    {
+        $definitions = parent::getDependencyDefinitions();
+        $definitions[] = new RootDependencyDefinition(WebServiceManager::class, $this->webserviceManager);
+        return $definitions;
     }
-  }
+
+    public function setValues(array $values): void
+    {
+        unset($this->config);
+
+        if (empty($values)) {
+            return;
+        }
+
+        $this->config = $values;
+
+        if (!empty($values['repository']['type'])) {
+            if (!($webserviceManager = $this->webserviceManager)) {
+                // No user manager.
+                return;
+            }
+
+            try {
+                // Get the user manager and set the repository type.
+              $webserviceManager->setRepositoryType($values['repository']['type']);
+            } catch (UserException $e) {
+                // No repository will be set.
+                return;
+            }
+        }
+    }
 }

@@ -65,7 +65,7 @@ class Configuration extends ComponentBasedObject implements EventListenerInterfa
      * @return string[]
      *   Array of default config item names.
      */
-    private function getDefaultConfigItemNames(): array
+    protected function getDefaultConfigItemNames(): array
     {
         return [
             TrustedHostPatternConfigItem::class,
@@ -90,7 +90,7 @@ class Configuration extends ComponentBasedObject implements EventListenerInterfa
      *
      * @throws UnmetDependencyException
      */
-    private function getEnabledConfigItems(): array
+    protected function getEnabledConfigItems(): array
     {
         $enabledConfigItems = [];
 

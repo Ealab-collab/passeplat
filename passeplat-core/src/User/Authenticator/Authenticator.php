@@ -23,7 +23,7 @@ class Authenticator extends ComponentBasedObject implements AuthenticatorInterfa
      *
      * @var UserManagerInterface
      */
-    private $userManager;
+    protected $userManager;
 
     /**
      * Authenticates the user for the given request.

@@ -11,6 +11,7 @@ use PassePlat\Core\Exception\AuthenticationException;
 use PassePlat\Core\Exception\ConfigException;
 use PassePlat\Core\Exception\UserException;
 use PassePlat\Core\Exception\UserNotFoundException;
+use PassePlat\Core\Exception\WebServiceException;
 use PassePlat\Core\Exception\WebServiceInvalidUriException;
 use PassePlat\Core\Security\HostChecker;
 use PassePlat\Core\Security\HostCheckerInterface;
@@ -40,22 +41,29 @@ class WebServiceManager extends ComponentBasedObject implements WebServiceManage
      *
      * @var AuthenticatorInterface
      */
-    private $authenticator;
+    protected $authenticator;
 
-    /**
-     * Host checker.
-     *
-     * @var HostCheckerInterface
-     */
-    private $hostChecker;
+  /**
+   * Current repository type.
+   *
+   * @var string
+   */
+  protected $currentRepositoryType = self::REPOSITORY_TYPE__NONE;
+
+  /**
+   * Host checker.
+   *
+   * @var HostCheckerInterface
+   */
+  protected $hostChecker;
 
     /**
      * User manager.
      *
      * @var UserManagerInterface
      */
-    private $userManager;
-    private WebServiceRepository$webserviceRepository;
+    protected $userManager;
+    protected WebServiceRepository $webserviceRepository;
 
     /**
      * Extracts web service parameters from the URL.
@@ -420,8 +428,8 @@ class WebServiceManager extends ComponentBasedObject implements WebServiceManage
     }
 
     if (empty($repositoryClass)) {
-      throw new UserRepositoryException(
-        'Invalid user repository type.'
+      throw new WebServiceException(
+        'Invalid webservice repository type.'
       );
     }
 

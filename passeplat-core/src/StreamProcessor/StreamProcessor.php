@@ -33,28 +33,28 @@ class StreamProcessor extends ComponentBasedObject implements StreamProcessorInt
      *
      * @var EventDispatcherInterface
      */
-    private $eventDispatcher;
+    protected $eventDispatcher;
 
     /**
      * Host checker.
      *
      * @var HostCheckerInterface
      */
-    private $hostChecker;
+  protected $hostChecker;
 
     /**
      * PassePlat response factory.
      *
      * @var PassePlatResponseFactoryInterface
      */
-    private $passePlatResponseFactory;
+  protected $passePlatResponseFactory;
 
     /**
      * Web service manager.
      *
      * @var WebServiceManagerInterface
      */
-    private $webServiceManager;
+  protected $webServiceManager;
 
     public function getDependencyDefinitions(): array
     {

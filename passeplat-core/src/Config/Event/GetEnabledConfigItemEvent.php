@@ -45,4 +45,10 @@ class GetEnabledConfigItemEvent extends ComponentBasedObject implements EventInt
     {
         $this->enabledConfigItemClassNames[$configItemClass] = $configItemClass;
     }
+    public function removeConfigItem(string $configItemClass): void
+    {
+      if(isset($this->enabledConfigItemClassNames[$configItemClass])) {
+        unset($this->enabledConfigItemClassNames[$configItemClass]);
+      }
+    }
 }

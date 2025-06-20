@@ -22,14 +22,14 @@ class UserManager extends ComponentBasedObject implements UserManagerInterface
      *
      * @var string
      */
-    private $currentRepositoryType = self::REPOSITORY_TYPE__NONE;
+    protected $currentRepositoryType = self::REPOSITORY_TYPE__NONE;
 
     /**
      * The user repository which holds all definitions.
      *
      * @var UserRepository
      */
-    private $userRepository;
+    protected $userRepository;
 
     public function authenticateUser(string $userId, string $token): bool
     {
@@ -48,7 +48,7 @@ class UserManager extends ComponentBasedObject implements UserManagerInterface
      * @return string[]
      *   Array of allowed repository types.
      */
-    private function getAllowedRepositoryTypes()
+    protected function getAllowedRepositoryTypes()
     {
         return [
             LocalConfigUserRepository::class => static::REPOSITORY_TYPE__LOCAL_CONFIG,
