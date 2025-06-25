@@ -164,7 +164,7 @@ class ElasticsearchLogger_0 extends TaskHandlerBase implements EventListenerInte
      * @throws CouldNotLoadElasticsearchIndexException
      * @throws ElasticsearchException
      */
-    private function logContent(array $contentToLog): array
+    protected function logContent(array $contentToLog): array
     {
         $indexDef = new AnalyzableContentIndexDef();
 
@@ -186,7 +186,7 @@ class ElasticsearchLogger_0 extends TaskHandlerBase implements EventListenerInte
      * @throws CouldNotLoadElasticsearchIndexException
      * @throws ElasticsearchException
      */
-    private function logErrors(array $errors, string $transactionId): void
+    protected function logErrors(array $errors, string $transactionId): void
     {
         if (!empty($errors)) {
             foreach ($errors as &$error) {

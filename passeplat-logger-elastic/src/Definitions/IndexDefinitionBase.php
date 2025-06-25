@@ -90,7 +90,7 @@ abstract class IndexDefinitionBase extends ComponentBasedObject
      * @throws ElasticsearchException
      *   If configuration retrieval fails.
      */
-    private function setPrefix(): void
+    protected function setPrefix(): void
     {
         try {
             /** @var Configuration $configuration */

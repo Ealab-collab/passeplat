@@ -43,7 +43,7 @@ class DashboardHandler extends Handler
      * @return array
      *   The Elasticsearch query structure for retrieving response history.
      */
-    private function buildHistoryQuery(
+    protected function buildHistoryQuery(
         string $webServiceId,
         string $endDate,
         string $startDate,
@@ -112,7 +112,7 @@ class DashboardHandler extends Handler
      * @return array
      *   The Elasticsearch query structure for retrieving performance data.
      */
-    private function buildPerformanceQuery(
+    protected function buildPerformanceQuery(
         string $webServiceId,
         string $endTime,
         string $startTime,
@@ -173,7 +173,7 @@ class DashboardHandler extends Handler
      * @return array
      *   Elasticsearch query.
      */
-    private function buildQuery(string $webServiceId, string $endDate, string $startDate): array
+    protected function buildQuery(string $webServiceId, string $endDate, string $startDate): array
     {
         return [
             'size' => 0,
@@ -340,7 +340,7 @@ class DashboardHandler extends Handler
      *   An associative array with the total error count and counts for various error categories:
      *   'requestErrors', 'responseErrors', 'parsingErrors', etc.
      */
-    private function getBucketCount(array $aggregations): array
+    protected function getBucketCount(array $aggregations): array
     {
         $result = [
             'totalErrors' => 0,
@@ -410,7 +410,7 @@ class DashboardHandler extends Handler
      * @param array $historyChart
      *   Reference to the chart data structure.
      */
-    private function getHistoryData(array $aggregations, array &$historyChart)
+    protected function getHistoryData(array $aggregations, array &$historyChart)
     {
         $mapping = [
             '2XX' => 0,
@@ -453,7 +453,7 @@ class DashboardHandler extends Handler
      * @return array
      *   Optimal interval for the aggregation.
      */
-    private function getOptimalInterval(int $startDate, int $endDate): array
+    protected function getOptimalInterval(int $startDate, int $endDate): array
     {
         $duration = $endDate - $startDate;
 
@@ -496,7 +496,7 @@ class DashboardHandler extends Handler
      *   The reference to the performance chart array, which will be populated
      *   with labels (timestamps) and dataset values (response times).
      */
-    private function getPerformanceData(array $aggregations, array &$performanceChart)
+    protected function getPerformanceData(array $aggregations, array &$performanceChart)
     {
         $i = -1;
         $performanceChart['labels'] = [];
