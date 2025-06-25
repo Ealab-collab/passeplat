@@ -20,7 +20,7 @@ class QueryParametersAuthenticationStrategy extends AuthenticationStrategyBase
      *
      * @var HostCheckerInterface
      */
-    private $hostChecker;
+    protected $hostChecker;
 
     public function authenticate(ServerRequestInterface $request): ?UserInterface
     {

@@ -38,7 +38,7 @@ class ElasticsearchLogger_0 extends TaskHandlerBase implements EventListenerInte
      *
      * @var ElasticsearchService
      */
-    private ElasticsearchService $elasticSearchService;
+    protected ElasticsearchService $elasticSearchService;
 
     /**
      * Executes the task.
@@ -125,7 +125,7 @@ class ElasticsearchLogger_0 extends TaskHandlerBase implements EventListenerInte
      *
      * @throws UnmetDependencyException
      */
-    private function initializeElasticsearchService(): ?ElasticsearchService
+    protected function initializeElasticsearchService(): ?ElasticsearchService
     {
         /** @var ElasticsearchService $elasticSearchService */
         $elasticSearchService = $this->getComponentByClassName(ElasticsearchService::class, true);

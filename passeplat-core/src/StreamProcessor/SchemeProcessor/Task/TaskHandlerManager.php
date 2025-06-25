@@ -77,6 +77,7 @@ class TaskHandlerManager extends ComponentBasedObject
             try {
                 $taskHandler->execute($analyzableContent, $taskOptions, $eventName);
             } catch (\Exception $exception) {
+              $a=2;
                 // Fail safe execution of tasks. Could be reported.
                 // Todo: information à remonter pour l'utilisateur, peut-être pour les devs aussi.
                 continue;

@@ -19,7 +19,7 @@ class DestinationAndUidInHostNameAuthenticationStrategy extends AuthenticationSt
      *
      * @var HostCheckerInterface
      */
-    private $hostChecker;
+    protected $hostChecker;
 
     public function authenticate(ServerRequestInterface $request): ?UserInterface
     {

@@ -26,7 +26,7 @@ class ElasticsearchService extends ComponentBasedObject
      *
      * @var array
      */
-    private array $configs;
+    protected array $configs;
 
     /**
      * Elasticsearch client.

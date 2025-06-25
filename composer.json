@@ -25,8 +25,9 @@
         "psr-4": {
             "PassePlat\\App\\": "src/",
             "PassePlat\\Core\\": "passeplat-core/src",
-            "PassePlat\\Forms\\": "passeplat-forms/src/",
-            "PassePlat\\Tasks\\": "passeplat-tasks/src/"
+            "PassePlat\\Forms\\": "passeplat-forms/src",
+            "PassePlat\\Tasks\\": "passeplat-tasks/src",
+            "PassePlat\\Logger\\Elastic\\": "passeplat-logger-elastic/src",
         },
           "files": [
             "passeplat-tasks/init.emerya.passeplat-tasks.php",

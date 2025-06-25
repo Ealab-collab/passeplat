@@ -26,7 +26,7 @@ class HostChecker extends ComponentBasedObject implements HostCheckerInterface
      *
      * @var Configuration
      */
-    private $configuration;
+    protected $configuration;
 
     /**
      * Caches the result of a host check.
