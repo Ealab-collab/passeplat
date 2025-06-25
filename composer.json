@@ -27,7 +27,7 @@
             "PassePlat\\Core\\": "passeplat-core/src",
             "PassePlat\\Forms\\": "passeplat-forms/src",
             "PassePlat\\Tasks\\": "passeplat-tasks/src",
-            "PassePlat\\Logger\\Elastic\\": "passeplat-logger-elastic/src",
+            "PassePlat\\Logger\\Elastic\\": "passeplat-logger-elastic/src"
         },
           "files": [
             "passeplat-tasks/init.emerya.passeplat-tasks.php",
