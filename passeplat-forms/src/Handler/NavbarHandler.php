@@ -15,7 +15,7 @@ class NavbarHandler extends Handler
 
     private const WEBSERVICES_DIRECTORY = '../config/app/webservice/';
 
-    private array $webservices = [];
+    protected array $webservices = [];
 
     /**
      * Retrieves the cached list of web services, updating it if necessary.
@@ -26,7 +26,7 @@ class NavbarHandler extends Handler
      * @throws WebServiceException
      *   Thrown if there are any issues encountered at the PassePlat webservice level.
      */
-    private function getWebServices(): array
+    protected function getWebServices(): array
     {
         if (empty($this->webservices)) {
             $this->updateWebServicesList();
@@ -89,7 +89,7 @@ class NavbarHandler extends Handler
      * @param string $wsid
      *   The selected web service ID.
      */
-    private function setHrefs(array &$yamContent, string $wsid)
+    protected function setHrefs(array &$yamContent, string $wsid)
     {
         foreach ([0, 1, 2, 3] as $index) {
             $yamContent['renderView'][0]['content'][0]['content'][0]['content'][2]['content'][0]['content']

@@ -302,7 +302,7 @@ class ErrorsHandler extends Handler
      * @return array
      *   Elasticsearch query.
      */
-    private function buildDistinctPathQuery(): array
+    protected function buildDistinctPathQuery(): array
     {
         return [
             'size' => 0,
@@ -334,7 +334,7 @@ class ErrorsHandler extends Handler
      *
      * @throws \Exception
      */
-    private function buildQuery(array $filters, array $sorts, int $size): array
+    protected function buildQuery(array $filters, array $sorts, int $size): array
     {
         // Base structure of the Elasticsearch query.
         $query = [
@@ -429,7 +429,7 @@ class ErrorsHandler extends Handler
      * @return array
      *   List of distinct paths.
      */
-    private function parseDistinctPathResponse(array $response): array
+    protected function parseDistinctPathResponse(array $response): array
     {
         $paths[] = [
             'label' => 'All',

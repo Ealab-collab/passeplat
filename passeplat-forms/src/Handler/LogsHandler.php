@@ -42,7 +42,7 @@ class LogsHandler extends Handler
      * @throws BadRequestException
      *   If required filters are missing.
      */
-    private function buildQuery(array $filters, int $from, int $size): array
+    protected function buildQuery(array $filters, int $from, int $size): array
     {
         // Base structure of the Elasticsearch query.
         $query = [

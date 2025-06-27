@@ -16,14 +16,20 @@ use Symfony\Component\Yaml\Yaml;
 
 class WebServiceEdit extends Handler
 {
-    private const SERVER_YAML_FILE = './../passeplat-forms/blueprint/edit.yaml';
-    private const WEBSERVICES_DIRECTORY = '../config/app/webservice/';
-    private const CONDITIONS_DIRECTORY = '../passeplat-core/src/StreamProcessor/SchemeProcessor/Task/Condition';
-    private const CONDITIONS_NAMESPACE = 'PassePlat\Core\StreamProcessor\SchemeProcessor\Task\Condition\\';
 
-    private array $webservices = [];
-    private array $mostRecentConditions = [];
-    private array $mostRecentTasks = [];
+  protected const SERVER_YAML_FILE = './../passeplat-forms/blueprint/edit.yaml';
+
+  protected const WEBSERVICES_DIRECTORY = '../config/app/webservice/';
+
+  protected const CONDITIONS_DIRECTORY = '../passeplat-core/src/StreamProcessor/SchemeProcessor/Task/Condition';
+
+  protected const CONDITIONS_NAMESPACE = 'PassePlat\Core\StreamProcessor\SchemeProcessor\Task\Condition\\';
+
+  protected array $webservices = [];
+
+  protected array $mostRecentConditions = [];
+
+  protected array $mostRecentTasks = [];
 
     /**
      * Escapes the class name by adding a leading backslash
@@ -65,7 +71,7 @@ class WebServiceEdit extends Handler
      * @throws ConditionException
      *   If there is an issue retrieving the conditions.
      */
-    private function getAllConditions(): array
+    protected function getAllConditions(): array
     {
         try {
             $conditionFiles = scandir(static::CONDITIONS_DIRECTORY);
@@ -157,7 +163,7 @@ class WebServiceEdit extends Handler
      * @throws WebServiceException
      *   Thrown if there are any issues encountered at the PassePlat webservice level.
      */
-    private function getWebServices(): array
+    protected function getWebServices(): array
     {
         if (empty($this->webservices)) {
             $this->updateWebServicesList();
@@ -293,7 +299,7 @@ class WebServiceEdit extends Handler
      * @throws ConditionException
      *   If there is an issue retrieving conditions.
      */
-    private function mostRecentConditions(): array
+    protected function mostRecentConditions(): array
     {
         $mostRecent = [];
 
@@ -327,7 +333,7 @@ class WebServiceEdit extends Handler
      * @throws TaskException
      *   If there is an issue retrieving the tasks.
      */
-    private function mostRecentTasks(): array
+    protected function mostRecentTasks(): array
     {
         $mostRecent = [];
         foreach ($this->getFilteredRegisteredTasks() as $task) {
@@ -363,7 +369,7 @@ class WebServiceEdit extends Handler
      * @throws ConditionException
      * @throws ReflectionException
      */
-    private function processConditionFile(string $conditionFile): ?string
+    protected function processConditionFile(string $conditionFile): ?string
     {
         // Escape non-conditions such as hidden files, etc.
         if (!preg_match('/^([a-zA-Z]+_\d+)\.php$/', $conditionFile, $matches)) {
@@ -395,7 +401,7 @@ class WebServiceEdit extends Handler
      *
      * @throws ConditionException
      */
-    private function setConditions(array &$result, string $wsid)
+    protected function setConditions(array &$result, string $wsid)
     {
         foreach ($this->getAllConditions() as $conditionClass) {
             if (!class_exists($conditionClass) || !$conditionClass::hasEnableForm()) {
@@ -442,7 +448,7 @@ class WebServiceEdit extends Handler
      * @throws WebServiceException
      *   If there is an issue retrieving the web service data.
      */
-    private function setInfos(array &$result, $wsid): void
+    protected function setInfos(array &$result, $wsid): void
     {
         $listWebServices = $this->getWebServices();
 
@@ -469,7 +475,7 @@ class WebServiceEdit extends Handler
      * @throws TaskException
      * @throws WebServiceException
      */
-    private function setTasks(array &$result, string $wsid)
+    protected function setTasks(array &$result, string $wsid)
     {
         $result['data']['tasks'] = $this->getWebServiceTasks($wsid);
 

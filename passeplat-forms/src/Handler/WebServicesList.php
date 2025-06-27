@@ -21,7 +21,7 @@ class WebServicesList extends Handler
 
     private const WEBSERVICES_DIRECTORY = '../config/app/webservice/';
 
-    private array $webservices = [];
+    protected array $webservices = [];
 
     /**
      * Builds the Elasticsearch query.
@@ -32,7 +32,7 @@ class WebServicesList extends Handler
      * @return array
      *   The constructed Elasticsearch query.
      */
-    private function buildQuery(string $webservice_id): array
+    protected function buildQuery(string $webservice_id): array
     {
         return [
             'size' => 0,
@@ -65,7 +65,7 @@ class WebServicesList extends Handler
      * @return array
      *   The constructed Elasticsearch query.
      */
-    private function buildQueryForCheck(string $webService): array
+  protected function buildQueryForCheck(string $webService): array
     {
         return [
             'size' => 0,
@@ -95,7 +95,7 @@ class WebServicesList extends Handler
      *
      * @throws UnmetDependencyException|ElasticsearchException
      */
-    private function checkIfHasErrorValidation(string $webService): int
+    protected function checkIfHasErrorValidation(string $webService): int
     {
         $query = $this->buildQueryForCheck($webService);
 
@@ -124,7 +124,7 @@ class WebServicesList extends Handler
      * @throws BadRequestException
      * @throws WebServiceException
      */
-    private function checkWebServiceFeature($webService): array
+    protected function checkWebServiceFeature($webService): array
     {
         $tasks = $this->getWebServiceTasks($webService);
 
@@ -144,7 +144,7 @@ class WebServicesList extends Handler
      * @return array
      *   Array with the last call date and the number of logs.
      */
-    private function extractBucketMetrics(array $aggregations): array
+    protected function extractBucketMetrics(array $aggregations): array
     {
         $lastCall = $aggregations['last_call_date']['value'];
 
@@ -193,7 +193,7 @@ class WebServicesList extends Handler
      * @throws WebServiceException
      *   Thrown if there are any issues encountered at the PassePlat webservice level.
      */
-    private function getWebServices(): array
+  protected function getWebServices(): array
     {
         if (empty($this->webservices)) {
             $this->updateWebServicesList();
@@ -305,7 +305,7 @@ class WebServicesList extends Handler
      *
      * @throws Exception|UnmetDependencyException|WebServiceException
      */
-    private function setItems(array &$result)
+    protected function setItems(array &$result)
     {
         $listWebServices = $this->listWebServices();
 
@@ -337,7 +337,7 @@ class WebServicesList extends Handler
      * @throws WebServiceException
      *   Thrown if there are any issues encountered at the PassePlat webservice level.
      */
-    private function updateWebServicesList(): void
+  protected function updateWebServicesList(): void
     {
         $yamlFiles = glob(static::WEBSERVICES_DIRECTORY . "/*.yaml");
 

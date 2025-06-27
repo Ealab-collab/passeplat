@@ -90,7 +90,7 @@ class DumpHandler extends Handler
      * @throws \Random\RandomException
      *   Thrown if an error occurs while generating random validation errors.
      */
-    private function generateLoggableDumpErrors(?array $errorOverrides = null, ?int $errorCount = 0): array
+    protected function generateLoggableDumpErrors(?array $errorOverrides = null, ?int $errorCount = 0): array
     {
         /** @var DummyValidationError $dummyValidationError */
         $dummyValidationError = ComponentBasedObject::getRootComponentByClassName(DummyValidationError::class, true);

@@ -30,7 +30,7 @@ class LogsDetailsHandler extends Handler
      * @throws \Exception
      *   If the identifier is null or empty.
      */
-    private function buildQuery(string $id): array
+    protected function buildQuery(string $id): array
     {
         if (empty($id)) {
             throw new \Exception('The identifier cannot be null or empty.');
